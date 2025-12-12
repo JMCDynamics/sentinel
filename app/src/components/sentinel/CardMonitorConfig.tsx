@@ -62,10 +62,10 @@ export function CardMonitorConfig({
                 data.healthy ? "bg-green-500" : "bg-red-500"
               }`}
             />
-            <h2 className="text-sm font-semibold text-zinc-900">{data.name}</h2>
+            <h2 className="text-sm font-semibold">{data.name}</h2>
           </div>
 
-          <span className="text-xs text-zinc-600">
+          <span className="text-xs">
             {showSensitiveInfo ? data.url : "••••••••••••••••••••••••••••"}
           </span>
         </div>
@@ -110,14 +110,14 @@ export function CardMonitorConfig({
       </section>
 
       <section className="w-full flex items-center justify-between">
-        <div className="flex items-center gap-1 w-fit p-2 rounded-md bg-zinc-100 border">
+        <div className="flex items-center gap-1 w-fit p-2 rounded-md bg-zinc-100 border dark:bg-zinc-800 dark:border-zinc-700">
           {data.slots.map((slot, index) => (
             <div
               key={index}
               className={cn(
                 "h-4 w-1 rounded-md",
                 !slot.is_monitoring_enabled
-                  ? "bg-zinc-300"
+                  ? "bg-zinc-300 dark:bg-zinc-600"
                   : slot.healthy
                   ? "bg-green-500"
                   : "bg-red-500"
@@ -127,16 +127,16 @@ export function CardMonitorConfig({
         </div>
       </section>
 
-      <div className="text-xs  flex items-center gap-2 text-zinc-800 mt-2">
+      <div className="text-xs  flex items-center gap-2 mt-2">
         <span>Interval: {formatIntervalFromSeconds(data.interval)}</span>
 
-        <div className="h-1 w-1 bg-zinc-300 rounded-full" />
+        <div className="h-1 w-1 rounded-full" />
 
         <span>Last Ran: {formatTimestamp(data.last_run, true)}</span>
 
         {!data.enabled && (
           <>
-            <div className="h-1 w-1 bg-zinc-300 rounded-full" />
+            <div className="h-1 w-1 rounded-full" />
 
             <span className="text-red-800 italic">
               (Disabled at {formatTimestamp(data.updated_at, true)})
