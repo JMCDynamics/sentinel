@@ -52,6 +52,8 @@ Install the package via npm:
 npm install @heimdall-sdk/express
 ```
 
+Check the most recent version on [npm](https://www.npmjs.com/package/@heimdall-sdk/express) and update the command accordingly.
+
 Then, use it in your Express application:
 
 ```typescript
