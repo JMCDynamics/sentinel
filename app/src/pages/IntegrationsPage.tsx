@@ -90,7 +90,7 @@ export function IntegrationsPage() {
                     ? integration.url
                     : "••••••••••••••••••••••••"}
                 </td>
-                <td>{formatTimestamp(integration.created_at)}</td>
+                <td>{formatTimestamp(integration.created_at, true)}</td>
               </tr>
             ))}
           </tbody>

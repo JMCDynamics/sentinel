@@ -115,7 +115,7 @@ export function EventsPage() {
                     </button>
                   </td>
                 )}
-                <td>{formatTimestamp(event.created_at)}</td>
+                <td>{formatTimestamp(event.created_at, true)}</td>
               </tr>
             ))}
           </tbody>

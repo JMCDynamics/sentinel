@@ -132,14 +132,14 @@ export function CardMonitorConfig({
 
         <div className="h-1 w-1 bg-zinc-300 rounded-full" />
 
-        <span>Last Ran: {formatTimestamp(data.last_run)}</span>
+        <span>Last Ran: {formatTimestamp(data.last_run, true)}</span>
 
         {!data.enabled && (
           <>
             <div className="h-1 w-1 bg-zinc-300 rounded-full" />
 
             <span className="text-red-800 italic">
-              (Disabled at {formatTimestamp(data.updated_at)})
+              (Disabled at {formatTimestamp(data.updated_at, true)})
             </span>
           </>
         )}

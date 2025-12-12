@@ -1,4 +1,10 @@
-export const formatTimestamp = (timestamp: number) => {
+export const formatTimestamp = (
+  timestamp: number,
+  sinceEpoch: boolean = false
+) => {
+  if (sinceEpoch) {
+    timestamp = timestamp * 1000;
+  }
   const date = new Date(timestamp);
   return date.toLocaleString("pt-BR", {
     year: "numeric",
