@@ -1,4 +1,4 @@
-FROM golang:1.24 AS go-builder
+FROM golang:1.24-alpine AS go-builder
 
 RUN apk add --no-cache gcc musl-dev sqlite-dev
 
