@@ -75,7 +75,7 @@ export function TokensPage() {
                     ? apiKey.value
                     : "••••••••••••••••••••••••"}
                 </td>
-                <td>{formatTimestamp(apiKey.created_at)}</td>
+                <td>{formatTimestamp(apiKey.created_at, true)}</td>
               </tr>
             ))}
           </tbody>
