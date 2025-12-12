@@ -1,0 +1,12 @@
+services:
+  sentinel:
+    image: mateusgcoelho/sentinel:latest
+    container_name: sentinel
+    ports:
+      - "80:80"
+    environment:
+      - ROOT_USERNAME=admin
+      - ROOT_PASSWORD=admin
+      - CORS_ORIGIN_ALLOWED=https://dominio.com # Optional
+    volumes:
+      - .docker/sentinel:/db

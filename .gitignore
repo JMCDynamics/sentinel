@@ -1,0 +1,5 @@
+engine/db
+.docker/sentinel
+./test
+test/
+engine/.env
