@@ -15,20 +15,23 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
     </head>
     <body class="bg-white text-black antialiased">
-      <nav class="flex items-center p-6 max-w-6xl mx-auto justify-between">
-        <div class="flex flex-row items-center">
-          <div class="w-8 h-8 bg-purple-600 rounded-full mr-4"></div>
-          <span class="text-5xl font-black">Sentinel</span>
-          <div class="flex items-center gap-3 ml-10">
+      <nav class="flex items-center p-6 max-w-6xl mx-auto justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-purple-600 rounded-full"></div>
+            <span class="text-5xl font-black max-sm:text-2xl">Sentinel</span>
+          </div>
+          <div class="flex items-center gap-3">
             <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">
               v0.4.1-alpha
             </span>
           </div>
         </div>
-      <div class="flex flex-row items-center gap-x-3">
-        <img onclick="setLanguage('pt')" class="fi fi-br fir h-4 object-cover cursor-pointer"></img>
-        <img onclick="setLanguage('en')" class="fi fi-us fir h-4 object-cover cursor-pointer"></img>
-      </div>
+
+        <div class="flex flex-row items-center gap-x-3">
+          <img onclick="setLanguage('pt')" class="fi fi-br fir h-4 object-cover cursor-pointer"></img>
+          <img onclick="setLanguage('en')" class="fi fi-us fir h-4 object-cover cursor-pointer"></img>
+        </div>
       </nav>
       <main class="max-w-7xl mx-auto px-6 py-18">
         <div class="flex flex-col items-center gap-20">
@@ -38,12 +41,9 @@
             <p id="comingSoon" class="text-sm text-gray-500 mb-8"></p>
             <p id="heroSubtitle" class="text-xl text-gray-600 mb-8"></p>
             <div class="flex flex-col sm:flex-row gap-4">
-              <a href="https://discord.gg/gp4fGgsMw8" target="_blank"  rel="noopener noreferrer"> 
-                <button
-                  id="discordBtn"
-                  class="bg-purple-600 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors cursor-pointer"
-                >
-                </button>
+              <a href="https://discord.gg/gp4fGgsMw8" target="_blank" class="bg-purple-600 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors cursor-pointer" id="discordBtn" rel="noopener noreferrer">
+              </a>
+              <a href="https://github.com/JMCDynamics/sentinel" target="_blank" class="bg-purple-600 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors cursor-pointer" id="githubBtn" rel="noopener noreferrer">
               </a>
           </div>
           </div>
@@ -146,6 +146,7 @@
             heroSubtitle:
               "Keep your systems running with real-time monitoring. Get alerts through Discord and Slack when issues arise.",
             discordBtn: "Discord Community",
+            githubBtn: "GitHub Repository",
             earlyAdopters: "Early adopters",
             fidexaDesc: "Finance / Credit Recovery",
             whatsNext: "What's next",
@@ -175,6 +176,7 @@
             heroSubtitle:
               "Mantenha seus sistemas funcionando com monitoramento em tempo real. Receba alertas via Discord e Slack quando problemas surgirem.",
             discordBtn: "Comunidade no Discord",
+            githubBtn: "Repositório no GitHub",
             earlyAdopters: "Primeiros usuários",
             fidexaDesc: "Finanças / Recuperação de Crédito",
             whatsNext: "Próximos passos",

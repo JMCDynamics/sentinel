@@ -39,3 +39,44 @@ Or use the official Docker image:
 ```bash
 docker run -d -e "ROOT_USERNAME=admin" -e "ROOT_PASSWORD=admin" -p 80:80 mateusgcoelho/sentinel:latest
 ```
+
+## Connectors
+
+### @heimdall-sdk/express
+
+We also provide an Express middleware package to easily integrate Sentinel monitoring into your Node.js applications.
+
+Install the package via npm:
+
+```bash
+npm install @heimdall-sdk/express
+```
+
+Then, use it in your Express application:
+
+```typescript
+import { heimdall } from "@heimdall-sdk/express";
+import express from "express";
+
+const app = express();
+
+app.use(express.json());
+app.use(
+  heimdall({
+    baseUrl: "http://localhost:8080",
+    serviceName: "my-company-api",
+    apiKey: "heim_4o8WW5SWg6jWuu0FTnlSnwCqS6a_HfcsZ65Y2iiS2GM", // Replace with your actual API key generated from Sentinel
+    flushIntervalMs: 10_000, // Optional: default is 10,000 ms
+    flushSize: 50, // Optional: default is 50
+  })
+);
+
+app.get("/", async (req, res) => {
+  res.status(200).json({ message: "hello world" });
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+```

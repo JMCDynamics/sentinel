@@ -4,10 +4,12 @@ import (
 	"log"
 	"os"
 
+	"github.com/mateusgcoelho/sentinel/engine/internal/apikey"
 	"github.com/mateusgcoelho/sentinel/engine/internal/config"
 	"github.com/mateusgcoelho/sentinel/engine/internal/integration"
 	"github.com/mateusgcoelho/sentinel/engine/internal/monitor"
 	"github.com/mateusgcoelho/sentinel/engine/internal/password"
+	"github.com/mateusgcoelho/sentinel/engine/internal/request"
 	"github.com/mateusgcoelho/sentinel/engine/internal/user"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -25,7 +27,14 @@ func OpenDatabaseConnection(appConfig config.Config) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err := gormDb.AutoMigrate(&monitor.MonitorConfig{}, &monitor.Attempt{}, &integration.IntegrationConfig{}, &user.User{}); err != nil {
+	if err := gormDb.AutoMigrate(
+		&monitor.MonitorConfig{},
+		&monitor.Attempt{},
+		&integration.IntegrationConfig{},
+		&user.User{},
+		&request.RequestLog{},
+		&apikey.ApiKeyConfig{},
+	); err != nil {
 		return nil, err
 	}
 

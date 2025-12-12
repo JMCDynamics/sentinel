@@ -68,7 +68,7 @@ export function EventsPage() {
           <div className="flex items-center gap-2 mt-1">
             <span className="text-sm">
               Showing last {events.length} events. Last updated at{" "}
-              {formatTimestamp(now.getTime() / 1000)}
+              {formatTimestamp(now.getTime())}
             </span>
           </div>
         </div>

@@ -3,11 +3,13 @@ package main
 import (
 	"log"
 
+	"github.com/mateusgcoelho/sentinel/engine/internal/apikey"
 	"github.com/mateusgcoelho/sentinel/engine/internal/auth"
 	"github.com/mateusgcoelho/sentinel/engine/internal/config"
 	"github.com/mateusgcoelho/sentinel/engine/internal/database"
 	"github.com/mateusgcoelho/sentinel/engine/internal/integration"
 	"github.com/mateusgcoelho/sentinel/engine/internal/monitor"
+	"github.com/mateusgcoelho/sentinel/engine/internal/request"
 	"github.com/mateusgcoelho/sentinel/engine/internal/server"
 	"github.com/mateusgcoelho/sentinel/engine/internal/user"
 	"gorm.io/gorm"
@@ -32,11 +34,15 @@ func main() {
 
 	startWorkers(gormDb)
 
+	apiKeyMiddleware := apikey.NewApiKeyMiddleware(gormDb)
+
 	handlers := []server.IHandler{
 		auth.NewHandler(gormDb, appConfig.JwtSecret),
 		monitor.NewHandler(gormDb),
 		integration.NewHandler(gormDb),
 		user.NewHandler(gormDb),
+		request.NewHandler(gormDb, apiKeyMiddleware.ValidateApiKey),
+		apikey.NewHandler(gormDb),
 	}
 
 	server := server.New(appConfig, handlers)

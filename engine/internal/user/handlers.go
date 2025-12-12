@@ -19,9 +19,9 @@ func NewHandler(db *gorm.DB) *UserHandler {
 }
 
 func (h *UserHandler) SetupRoutes(r *gin.Engine) {
-	auth := r.Group("/users")
+	user := r.Group("/users")
 	{
-		auth.PATCH("", h.HandleUpdateProfile)
+		user.PATCH("", h.HandleUpdateProfile)
 	}
 }
 

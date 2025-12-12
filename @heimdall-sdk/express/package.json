@@ -1,0 +1,29 @@
+{
+  "name": "@heimdall-sdk/express",
+  "version": "0.1.2",
+  "description": "Heimdall SDK Express Integration",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "express": "^5.2.1"
+  }
+}

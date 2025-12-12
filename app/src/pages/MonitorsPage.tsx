@@ -50,7 +50,7 @@ export function MonitorsPage() {
     <>
       <div className="w-full flex items-center justify-between">
         <div className="flex flex-col mb-4">
-          <h1 className="text-2xl font-semibold text-zinc-700">Monitors</h1>
+          <h1 className="text-2xl font-semibold">Monitors</h1>
 
           <div className="flex items-center gap-2 mt-1">
             {refreshing ? (
@@ -60,7 +60,7 @@ export function MonitorsPage() {
             )}
 
             <span className="text-sm">
-              Refreshed at {formatTimestamp(now.getTime() / 1000)}
+              Refreshed at {formatTimestamp(now.getTime())}
             </span>
           </div>
         </div>
