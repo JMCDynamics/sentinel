@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import z from "zod";
-import { version } from "./Root";
 
 const authSchema = z.object({
   username: z
@@ -107,7 +106,7 @@ export function SignInPage() {
               </Button>
 
               <span className="text-sm text-muted-foreground text-center mt-2">
-                {version}
+                {__APP_VERSION__}
               </span>
             </form>
           </div>

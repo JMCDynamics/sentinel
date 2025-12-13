@@ -103,12 +103,12 @@ export function EventsPage() {
                 </td>
                 <td>{event.status_code}</td>
                 {event.status_code == 0 && event.response == "" ? (
-                  <td className="italic text-zinc-400">no response</td>
+                  <td className="italic">no response</td>
                 ) : (
                   <td>
                     <button
                       onClick={() => setResponsePreview(event.response)}
-                      className="bg-zinc-200 hover:bg-zinc-300 px-2 py-1 rounded-sm text-xs flex items-center"
+                      className="px-2 py-1 rounded-sm text-xs flex items-center bg-secondary"
                     >
                       <span className="break-line-table">{event.response}</span>
                       <EyeIcon className="w-4 h-4 inline-block ml-2" />
@@ -140,7 +140,7 @@ export function EventsPage() {
                   style={defaultStyles}
                 />
               ) : (
-                <pre className="whitespace-pre-wrap break-words">
+                <pre className="whitespace-pre-wrap wrap-break-words">
                   {responsePreview}
                 </pre>
               )}
@@ -170,7 +170,7 @@ export function EventsPage() {
             alt="No events"
             className="w-32 h-32 mb-4"
           />
-          <span className="text-zinc-400 mb-4">No events was found</span>
+          <span className="mb-4">No events was found</span>
         </div>
       )}
     </>

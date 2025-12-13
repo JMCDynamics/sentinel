@@ -12,12 +12,15 @@ export function Pagination({ data, onPageChange }: PaginationProps) {
     const pages = new Set<number>();
 
     pages.add(1);
-    pages.add(totalPages);
 
-    pages.add(currentPage);
+    if (totalPages > 0) {
+      pages.add(totalPages);
 
-    if (currentPage - 1 > 1) pages.add(currentPage - 1);
-    if (currentPage + 1 < totalPages) pages.add(currentPage + 1);
+      pages.add(currentPage);
+
+      if (currentPage - 1 > 1) pages.add(currentPage - 1);
+      if (currentPage + 1 < totalPages) pages.add(currentPage + 1);
+    }
 
     return Array.from(pages).sort((a, b) => a - b);
   };
@@ -39,7 +42,7 @@ export function Pagination({ data, onPageChange }: PaginationProps) {
           key={i}
           onClick={() => onPageChange(p)}
           className={`px-3 py-1 border rounded ${
-            p === currentPage ? "bg-gray-200 font-bold" : ""
+            p === currentPage ? "bg-secondary font-bold" : ""
           }`}
         >
           {p}

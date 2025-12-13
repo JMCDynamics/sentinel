@@ -2,7 +2,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSensitiveInfo } from "@/hooks/useSensitiveInfo";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { version } from "@/pages/Root";
 import {
   EyeIcon,
   KeyIcon,
@@ -100,7 +99,7 @@ export function Navbar() {
           <span>Sign Out</span>
         </Button>
 
-        <span className="p-2">{version}</span>
+        <span className="p-2">{__APP_VERSION__}</span>
       </section>
     </nav>
   );
