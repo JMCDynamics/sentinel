@@ -7,6 +7,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* add title */}
+      <head>
+        <title>Heimdall</title>
+      </head>
       <body className="antialiased dark">{children}</body>
     </html>
   );
