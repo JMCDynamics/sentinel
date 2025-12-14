@@ -1,6 +1,6 @@
 {
   "name": "@heimdall-sdk/express",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Heimdall SDK Express Integration",
   "main": "dist/index.js",
   "module": "dist/index.js",
