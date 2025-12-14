@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { listMonitorConfigs, type MonitorConfig } from "@/data/monitor-config";
+import { useSensitiveInfo } from "@/hooks/useSensitiveInfo";
 import { formatIntervalFromSeconds, formatTimestamp } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { CheckIcon, PlusIcon, SparklesIcon } from "@heroicons/react/24/solid";
@@ -15,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export function MonitorsPage() {
+  const { showSensitiveInfo } = useSensitiveInfo();
   const navigate = useNavigate();
 
   const [now, setNow] = useState<Date>(new Date());
@@ -133,7 +135,9 @@ export function MonitorsPage() {
                   ))}
                 </div>
               </td>
-              <td className="break-line-table">{monitor.name}</td>
+              <td className="break-line-table">
+                {showSensitiveInfo ? monitor.url : "•••••••••••••••••••"}
+              </td>
               <td>{formatIntervalFromSeconds(monitor.interval)}</td>
               <td>{formatTimestamp(monitor.last_run, true)}</td>
               <td>
