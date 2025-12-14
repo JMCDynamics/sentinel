@@ -135,14 +135,6 @@ app.listen(PORT, () => {
               <span>Discord Community</span>
             </a>
           </div>
-
-          <button
-            onClick={() => Supademo.open("cmj5zojz10na8byg7r97f0mg4")}
-            className="text-foreground/40 cursor-pointer px-6 py-2 font-bold text-sm hover:text-foreground transition-colors"
-          >
-            <span>Live demo</span>
-          </button>
-
           <div className="w-full flex flex-col items-center justify-center gap-4 mt-20">
             <p className="text-sm text-foreground/40">Early Adopters</p>
 
@@ -185,6 +177,24 @@ app.listen(PORT, () => {
                 <CopyIcon className="w-4 h-4" />
               )}
             </button>
+          </div>
+
+          <div className="w-full h-100 my-10 relative rounded-xl overflow-hidden">
+            <iframe
+              src="https://app.supademo.com/embed/cmj5zojz10na8byg7r97f0mg4?embed_v=2&utm_source=embed"
+              loading="lazy"
+              title="Set Up Integrations, Monitors, and API Tokens in Heimdall"
+              allow="clipboard-write"
+              frameBorder="0"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            ></iframe>
           </div>
         </div>
       </div>
