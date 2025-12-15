@@ -1,12 +1,14 @@
 package request
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mateusgcoelho/sentinel/engine/internal/pagination"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -83,14 +85,44 @@ func (h *RequestLogHandler) HandleCaptureLog(c *gin.Context) {
 		return
 	}
 
-	for i := range req {
-		req[i].ApiKeyConfigID = apiKeyConfigID
+	var entries = []RequestLog{}
+
+	for _, r := range req {
+		entries = append(entries, RequestLog{
+			ServiceName: r.ServiceName,
+			Timestamp:   r.Timestamp,
+			Method:      r.Method,
+			URL:         r.URL,
+			StatusCode:  r.StatusCode,
+			Duration:    r.Duration,
+			IP:          r.IP,
+			UserAgent:   r.UserAgent,
+			Query:       datatypes.JSON(r.Query),
+			Params:      datatypes.JSON(r.Params),
+			Headers:     datatypes.JSON(r.Headers),
+			Body:        anyToString(r.Body),
+		})
 	}
 
-	if err := h.database.Create(&req).Error; err != nil {
+	if err := h.database.Create(&entries).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to capture request log"})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "request log captured successfully"})
+}
+
+func anyToString(data any) string {
+	switch v := data.(type) {
+	case string:
+		return v
+	case nil:
+		return ""
+	default:
+		bytes, err := json.Marshal(v)
+		if err != nil {
+			return ""
+		}
+		return string(bytes)
+	}
 }
