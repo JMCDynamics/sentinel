@@ -22,7 +22,8 @@ export function buildLog(
   includeBody: boolean,
   serviceName: string
 ): LogEntry {
-  const fullUrl = `${req.protocol}://${req.get("host")}${req.path}`;
+  const rawPath: string = req.route?.path ?? req?.path ?? "";
+  const fullUrl = `${req.protocol}://${req.get("host")}${rawPath}`;
 
   return {
     serviceName,

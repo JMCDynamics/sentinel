@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mateusgcoelho/sentinel/engine/internal/pagination"
@@ -30,7 +31,100 @@ func (h *RequestLogHandler) SetupRoutes(r *gin.Engine) {
 	{
 		request.GET("", h.HandleListRequestLogs)
 		request.POST("", h.apiKeyMiddleware, h.HandleCaptureLog)
+		request.GET("/metrics", h.HandleGetMetrics)
 	}
+}
+
+func (h *RequestLogHandler) HandleGetMetrics(c *gin.Context) {
+	now := time.Now()
+	startOfToday := time.Date(
+		now.Year(),
+		now.Month(),
+		now.Day(),
+		0, 0, 0, 0,
+		now.Location(),
+	)
+
+	var metrics Metrics
+	if err := h.database.Model(&RequestLog{}).
+		Where("timestamp >= ?", startOfToday.UnixMilli()).
+		Count(&metrics.TotalRequests).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to calculate total requests"})
+		return
+	}
+
+	var errorCount int64
+	if err := h.database.Model(&RequestLog{}).
+		Where("status_code >= ?", 500).
+		Where("timestamp >= ?", startOfToday.UnixMilli()).
+		Count(&errorCount).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to calculate error rate"})
+		return
+	}
+	if metrics.TotalRequests > 0 {
+		metrics.ErrorRate = float64(errorCount) / float64(metrics.TotalRequests) * 100
+	} else {
+		metrics.ErrorRate = 0
+	}
+
+	dailyTraffic := []DailyTraffic{}
+
+	sqlQuery := `
+		WITH RECURSIVE time_buckets(time_interval) AS (
+			SELECT (CAST(? AS INTEGER) / 1800000) * 1800000
+			UNION ALL
+			SELECT time_interval + 1800000
+			FROM time_buckets
+			WHERE time_interval + 1800000 <= ?
+		)
+		SELECT
+			CASE
+				WHEN rl.status_code >= 200 AND rl.status_code < 500 THEN 1
+				ELSE 0
+			END AS successful,
+			tb.time_interval,
+			COALESCE(COUNT(rl.timestamp), 0) AS count
+		FROM
+			time_buckets tb
+		LEFT JOIN request_logs rl
+			ON ((CAST(rl.timestamp AS INTEGER) / 1800000) * 1800000) = tb.time_interval
+		GROUP BY
+			tb.time_interval,
+    		successful
+		ORDER BY
+			tb.time_interval,
+			successful DESC;
+	`
+	err := h.database.Raw(sqlQuery, startOfToday.UnixMilli(), now.UnixMilli()).Scan(&dailyTraffic).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to calculate today's traffic"})
+		return
+	}
+	metrics.DailyTraffic = dailyTraffic
+
+	var groupedRequests []GroupedRequest = []GroupedRequest{}
+	// average of duration, grouped by service_name, method and url
+	sqlQuery = `
+		SELECT
+			service_name,
+			method,
+			url,
+			COUNT(*) AS total,
+			SUM(CASE WHEN status_code < 200 OR status_code >= 500 THEN 1 ELSE 0 END) AS failed,
+			AVG(duration) AS average_duration
+		FROM request_logs
+		GROUP BY service_name, method, url
+		ORDER BY total DESC
+		LIMIT 10;
+	`
+	err = h.database.Raw(sqlQuery).Scan(&groupedRequests).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to calculate grouped requests"})
+		return
+	}
+	metrics.GroupedRequests = groupedRequests
+
+	c.JSON(http.StatusOK, gin.H{"data": metrics})
 }
 
 func (h *RequestLogHandler) HandleListRequestLogs(c *gin.Context) {
@@ -54,7 +148,7 @@ func (h *RequestLogHandler) HandleListRequestLogs(c *gin.Context) {
 
 	var logs []RequestLog
 	if err := h.database.
-		Order("id DESC").
+		Order("timestamp DESC").
 		Limit(perPage).
 		Offset(offset).
 		Find(&logs).Error; err != nil {
@@ -89,18 +183,19 @@ func (h *RequestLogHandler) HandleCaptureLog(c *gin.Context) {
 
 	for _, r := range req {
 		entries = append(entries, RequestLog{
-			ServiceName: r.ServiceName,
-			Timestamp:   r.Timestamp,
-			Method:      r.Method,
-			URL:         r.URL,
-			StatusCode:  r.StatusCode,
-			Duration:    r.Duration,
-			IP:          r.IP,
-			UserAgent:   r.UserAgent,
-			Query:       datatypes.JSON(r.Query),
-			Params:      datatypes.JSON(r.Params),
-			Headers:     datatypes.JSON(r.Headers),
-			Body:        anyToString(r.Body),
+			ServiceName:    r.ServiceName,
+			Timestamp:      r.Timestamp,
+			Method:         r.Method,
+			URL:            r.URL,
+			StatusCode:     r.StatusCode,
+			Duration:       r.Duration,
+			IP:             r.IP,
+			UserAgent:      r.UserAgent,
+			Query:          datatypes.JSON(r.Query),
+			Params:         datatypes.JSON(r.Params),
+			Headers:        datatypes.JSON(r.Headers),
+			Body:           anyToString(r.Body),
+			ApiKeyConfigID: apiKeyConfigID,
 		})
 	}
 

@@ -7,6 +7,7 @@ import { EditMonitorPage } from "./pages/EditMonitorPage";
 import { EditProfilePage } from "./pages/EditProfile";
 import { EventsPage } from "./pages/EventsPage";
 import { IntegrationsPage } from "./pages/IntegrationsPage";
+import { MetricsPage } from "./pages/MetricsPage";
 import { MonitorsPage } from "./pages/MonitorsPage";
 import { NewIntegrationPage } from "./pages/NewIntegrationPage";
 import { NewMonitorPage } from "./pages/NewMonitorPage";
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: () => <Navigate to="/monitors" replace />,
+      },
+      {
+        path: "/metrics",
+        Component: MetricsPage,
       },
       {
         path: "/monitors",

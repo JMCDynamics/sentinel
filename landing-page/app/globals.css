@@ -10,7 +10,7 @@
   --card-foreground: #1c1c22;
   --popover: #ffffff;
   --popover-foreground: #1c1c22;
-  --primary: #43a2ea;
+  --primary: #22c37d;
   --primary-foreground: #fafafa;
   --secondary: #f2f2f3;
   --secondary-foreground: #242429;
@@ -20,6 +20,8 @@
   --accent-foreground: #242429;
   --destructive: #e23636;
   --destructive-foreground: #fafafa;
+  --success: #22c37d;
+  --success-foreground: #fafafa;
   --border: #dfdfe2;
   --input: #e4e4e7;
   --ring: #7a30e8;
@@ -76,6 +78,8 @@
   --accent-foreground: #f2f2f2;
   --destructive: #ad1f1f;
   --destructive-foreground: #fafafa;
+  --success: #22c37d;
+  --success-foreground: #fafafa;
   --border: #252525;
   --input: #3b3b44;
   --ring: #7a30e8;
@@ -129,6 +133,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

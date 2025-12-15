@@ -27,7 +27,6 @@ func (m *ApiKeyMiddleware) ValidateApiKey(c *gin.Context) {
 
 	var apiKey ApiKeyConfig
 	if err := m.database.Where("value = ? AND revoked = false", apiKeyToken).First(&apiKey).Error; err != nil {
-		println(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Failed to validate API key"})
 
 		c.Abort()

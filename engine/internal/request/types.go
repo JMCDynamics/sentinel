@@ -23,6 +23,7 @@ type RequestLog struct {
 	Body           string              `json:"body"`
 	ApiKeyConfigID uint                `gorm:"not null" json:"api_key_config_id"`
 	ApiKeyConfig   apikey.ApiKeyConfig `gorm:"foreignKey:ApiKeyConfigID" json:"-"`
+	CreatedAt      int64               `gorm:"autoCreateTime" json:"created_at"`
 }
 
 type RequestLogDTO struct {
@@ -39,4 +40,26 @@ type RequestLogDTO struct {
 	Headers        json.RawMessage `json:"headers"`
 	Body           any             `json:"body"`
 	ApiKeyConfigID uint            `json:"api_key_config_id"`
+}
+
+type DailyTraffic struct {
+	Successful   bool  `json:"successful"`
+	TimeInterval int64 `json:"time_interval"`
+	Count        int64 `json:"count"`
+}
+
+type GroupedRequest struct {
+	ServiceName     string  `json:"service_name"`
+	Method          string  `json:"method"`
+	URL             string  `json:"url"`
+	Total           int64   `json:"total"`
+	Failed          int64   `json:"failed"`
+	AverageDuration float64 `json:"average_duration"`
+}
+
+type Metrics struct {
+	TotalRequests   int64            `json:"total_requests"`
+	ErrorRate       float64          `json:"error_rate"`
+	DailyTraffic    []DailyTraffic   `json:"daily_traffic"`
+	GroupedRequests []GroupedRequest `json:"grouped_requests"`
 }

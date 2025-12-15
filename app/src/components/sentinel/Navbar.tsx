@@ -7,6 +7,7 @@ import {
   Bell,
   EyeIcon,
   EyeOffIcon,
+  LayoutDashboardIcon,
   ListIcon,
   LucideLogOut,
   MonitorIcon,
@@ -29,7 +30,7 @@ export function Navbar() {
     );
 
   return (
-    <nav className="flex flex-col items-center justify-between p-2 h-full w-70">
+    <nav className="flex flex-col items-center justify-between py-2 px-4 h-full w-60 border-r">
       <section className="w-full flex items-center justify-start gap-2 p-2">
         <h1 className="text-3xl font-bold flex items-center h-full bg-linear-to-r from-foreground to-foreground/30 bg-clip-text text-transparent">
           heimdall
@@ -39,6 +40,13 @@ export function Navbar() {
       <section className="w-full flex-1 flex flex-col text-sm gap-2 pt-2 px-2">
         <p className="font-semibold">Observability</p>
         <div className="w-full flex flex-col gap-1 mb-2 px-1">
+          <NavLink
+            to="/metrics"
+            className={({ isActive }) => getNavLinkClass(isActive)}
+          >
+            <LayoutDashboardIcon className="w-4 h-4 mr-2" />
+            <span>Metrics</span>
+          </NavLink>
           <NavLink
             to="/monitors"
             className={({ isActive }) => getNavLinkClass(isActive)}

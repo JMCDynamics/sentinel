@@ -34,7 +34,7 @@ export function MyTable({
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 && data.map((item) => renderRow(item))}
+            {data.length > 0 && !loading && data.map((item) => renderRow(item))}
             {data.length === 0 && !loading && (
               <tr>
                 <td

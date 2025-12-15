@@ -60,4 +60,16 @@ func startWorkers(gormDb *gorm.DB) {
 			log.Fatalf("monitor worker encountered an error: %v", err)
 		}
 	}()
+
+	pruneEventsWorker := monitor.NewPruneEventsWorker(gormDb)
+
+	go func() {
+		if err := pruneEventsWorker.StartWorker(); err != nil {
+			log.Fatalf("prune events worker encountered an error: %v", err)
+		}
+	}()
+
+	pruneRequestsWorker := request.NewPruneRequestsWorker(gormDb)
+
+	go pruneRequestsWorker.StartWorker()
 }
