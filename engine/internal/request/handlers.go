@@ -103,14 +103,14 @@ func (h *RequestLogHandler) HandleGetMetrics(c *gin.Context) {
 	metrics.DailyTraffic = dailyTraffic
 
 	var groupedRequests []GroupedRequest = []GroupedRequest{}
-	// average of duration, grouped by service_name, method and url
+
 	sqlQuery = `
 		SELECT
 			service_name,
 			method,
 			url,
 			COUNT(*) AS total,
-			SUM(CASE WHEN status_code < 200 OR status_code >= 500 THEN 1 ELSE 0 END) AS failed,
+			SUM(CASE WHEN status_code >= 500 THEN 1 ELSE 0 END) AS failed,
 			AVG(duration) AS average_duration
 		FROM request_logs
 		GROUP BY service_name, method, url
