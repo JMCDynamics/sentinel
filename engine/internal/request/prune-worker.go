@@ -21,7 +21,7 @@ func (w *PruneRequestsWorker) StartWorker() {
 	log.Println("[prune-requests-worker] starting prune requests worker")
 
 	for {
-		cutoff := time.Now().Add(-42 * time.Hour)
+		cutoff := time.Now().Add(-48 * time.Hour)
 		log.Printf("[prune-requests-worker] pruning request logs older than %d", cutoff.UnixMilli())
 
 		result := w.database.Where("created_at < ? OR created_at IS NULL", cutoff.Unix()).Delete(&RequestLog{})
