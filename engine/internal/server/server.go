@@ -40,14 +40,17 @@ func (s *Server) Run() error {
 func (s *Server) useCors(r *gin.Engine) {
 	allowedOrigins := []string{
 		"http://localhost:5173",
+		"http://localhost:*",
 	}
 	if s.config.OriginAllowed != "" {
 		allowedOrigins = append(allowedOrigins, s.config.OriginAllowed)
 	}
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: allowedOrigins,
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
+		AllowWildcard:       true,
+		AllowPrivateNetwork: true,
+		AllowOrigins:        allowedOrigins,
+		AllowMethods:        []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
 		AllowHeaders: []string{
 			"Content-Type",
 			"Authorization",
